@@ -1,0 +1,28 @@
+---
+deployment:
+  tasks:
+    # Where the live site lives. If cPanel reports an empty or wrong path,
+    # replace $HOME with the literal home directory, e.g. /home/cpaneluser
+    - export DEPLOYPATH=$HOME/public_html
+    - /bin/mkdir -p $DEPLOYPATH
+
+    # Pages
+    - /bin/cp index.html $DEPLOYPATH/
+    - /bin/cp get-help.html $DEPLOYPATH/
+    - /bin/cp programmes.html $DEPLOYPATH/
+    - /bin/cp about.html $DEPLOYPATH/
+    - /bin/cp stories.html $DEPLOYPATH/
+    - /bin/cp get-involved.html $DEPLOYPATH/
+    - /bin/cp faq.html $DEPLOYPATH/
+    - /bin/cp contact.html $DEPLOYPATH/
+
+    # Search
+    - /bin/cp robots.txt $DEPLOYPATH/
+    - /bin/cp sitemap.xml $DEPLOYPATH/
+
+    # Stylesheet, script, fonts, SVG. Copied wholesale so removed files in a
+    # subfolder do not linger; assets/ is the only directory the site needs.
+    - /bin/rm -rf $DEPLOYPATH/assets
+    - /bin/cp -R assets $DEPLOYPATH/
+
+    # src/ and tools/ are build sources and are deliberately NOT deployed.
