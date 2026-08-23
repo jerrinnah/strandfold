@@ -347,6 +347,15 @@ function view_media(?string $notice, ?string $error): void {
     <h1>Images</h1>
     <p class="lede-a">Every upload is re-encoded, which strips EXIF data — including the GPS coordinates a phone camera records. Nothing that could disclose a location survives the upload.</p>
     <p class="msg msg-warn">No photograph of a woman you support may be published without her written, revocable consent. If in doubt, do not upload it.</p>
+
+    <div class="steps">
+      <h2>Uploading is step one of two</h2>
+      <p>This screen is the image library. An image here is <strong>not on the website yet</strong>.</p>
+      <ol>
+        <li>Upload the file below.</li>
+        <li>Go to <a href="index.php?r=dashboard">Pages</a>, open the page you want it on — the homepage hero lives under <a href="index.php?r=page&amp;p=index">Homepage → Hero image</a> — choose the file in the dropdown, add a description, and press <strong>Save and publish</strong>.</li>
+      </ol>
+    </div>
     <?php flash($notice, $error); ?>
 
     <form method="post" enctype="multipart/form-data" class="upload">

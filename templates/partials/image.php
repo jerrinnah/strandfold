@@ -33,8 +33,17 @@ function image_slot($img, array $opt = []): string {
         $dim = ($w && $h) ? ' width="' . $w . '" height="' . $h . '"' : '';
         // The hero loads eagerly; everything below the fold defers.
         $load = !empty($opt['priority']) ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"';
+
+        // Serve the smallest copy that fits. Most visitors here are on a phone
+        // with limited data, so this matters more than usual.
+        $srcset = is_array($img) ? trim((string)($img['srcset'] ?? '')) : '';
+        $sizes  = $opt['sizes'] ?? '(min-width: 900px) 45vw, 100vw';
+        $rs = $srcset !== ''
+            ? ' srcset="' . e($srcset) . '" sizes="' . e($sizes) . '"'
+            : '';
+
         return '<figure class="' . e($class) . '"' . $style . '>'
-             . '<img src="' . e($file) . '" alt="' . e($alt) . '"' . $dim . $load . '>'
+             . '<img src="' . e($file) . '" alt="' . e($alt) . '"' . $rs . $dim . $load . '>'
              . '</figure>';
     }
 

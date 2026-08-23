@@ -119,12 +119,13 @@ function media_store(array $file): array {
         'bytes'    => filesize($path) ?: 0,
         'uploaded' => gmdate('c'),
         'original' => substr(preg_replace('/[^\w. -]/', '', (string)$file['name']), 0, 80),
+        'variants' => media_variants($path, $name, $ext, $type, $w, $h),
     ];
     $items = media_all();
     array_unshift($items, $item);
     media_index_save($items);
 
-    return [true, 'Uploaded, and its location metadata has been stripped.', $item];
+    return [true, 'Uploaded, and its location metadata has been stripped. It is not on the site yet — open the page you want it on, choose it in the image field, and press Save and publish.', $item];
 }
 
 /** Remove a file and its index entry. Returns [ok, message]. */
@@ -132,9 +133,13 @@ function media_delete(string $file): array {
     if (!str_starts_with($file, 'uploads/') || str_contains($file, '..')) {
         return [false, 'That is not a file in the uploads folder.'];
     }
+    $item = media_find($file);
     $path = APP_ROOT . '/' . $file;
     if (is_file($path) && !@unlink($path)) {
         return [false, 'The file could not be deleted — check folder permissions.'];
+    }
+    foreach (($item['variants'] ?? []) as $v) {
+        if (str_starts_with((string)$v, 'uploads/')) @unlink(APP_ROOT . '/' . $v);
     }
     media_index_save(array_filter(media_all(), fn($m) => $m['file'] !== $file));
     return [true, 'Image deleted.'];
@@ -157,4 +162,52 @@ function human_bytes(int $b): string {
     if ($b >= 1048576) return round($b / 1048576, 1) . ' MB';
     if ($b >= 1024) return round($b / 1024) . ' kB';
     return $b . ' B';
+}
+
+/**
+ * Write smaller copies so a phone does not download a 2000px file.
+ * Returns [width => path]. Failure is non-fatal: without variants the full
+ * image is still served, just less efficiently.
+ */
+function media_variants(string $path, string $name, string $ext, int $type, int $w, int $h): array {
+    $out = [];
+    foreach ([640, 1024, 1600] as $tw) {
+        if ($tw >= $w) continue;
+        $src = match ($type) {
+            IMAGETYPE_JPEG => @imagecreatefromjpeg($path),
+            IMAGETYPE_PNG  => @imagecreatefrompng($path),
+            IMAGETYPE_WEBP => @imagecreatefromwebp($path),
+            default        => null,
+        };
+        if (!$src) continue;
+
+        $th  = (int)round($h * ($tw / $w));
+        $dst = imagecreatetruecolor($tw, $th);
+        if ($type === IMAGETYPE_PNG || $type === IMAGETYPE_WEBP) {
+            imagealphablending($dst, false);
+            imagesavealpha($dst, true);
+        }
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $tw, $th, $w, $h);
+        imagedestroy($src);
+
+        $vn = preg_replace('/\.' . preg_quote($ext, '/') . '$/', '', $name) . '-' . $tw . '.' . $ext;
+        $vp = uploads_dir() . '/' . $vn;
+        $ok = match ($type) {
+            IMAGETYPE_JPEG => imagejpeg($dst, $vp, 80),
+            IMAGETYPE_PNG  => imagepng($dst, $vp, 6),
+            IMAGETYPE_WEBP => imagewebp($dst, $vp, 80),
+            default        => false,
+        };
+        imagedestroy($dst);
+        if ($ok) { @chmod($vp, 0644); $out[$tw] = 'uploads/' . $vn; }
+    }
+    return $out;
+}
+
+/** Build a srcset string for an item, widest last. */
+function media_srcset(array $item): string {
+    $parts = [];
+    foreach (($item['variants'] ?? []) as $wd => $f) $parts[] = $f . ' ' . (int)$wd . 'w';
+    $parts[] = $item['file'] . ' ' . (int)$item['w'] . 'w';
+    return count($parts) > 1 ? implode(', ', $parts) : '';
 }

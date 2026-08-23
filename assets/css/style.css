@@ -395,7 +395,14 @@ h1,h2{text-wrap:balance}
 .hero-inner{padding:var(--s-6) 0}
 .hero h1{margin-bottom:var(--s-3)}
 .hero .lede{margin-bottom:var(--s-5)}
-.hero-media{display:none}
+.hero-media{order:2}
+/* On a phone the image sits below the words: the headline and the helpline
+   number must be reachable without scrolling past a photograph. */
+@media (max-width:899px){
+  .hero-inner{order:1;padding-bottom:var(--s-4)}
+  .hero-media{margin-bottom:var(--s-6)}
+  .hero-media .imgslot{aspect-ratio:16 / 10}
+}
 .hero-contact{
   margin-top:var(--s-5);padding-top:var(--s-3);
   border-top:1px solid var(--line);font-size:var(--t-sm);color:var(--text-3)
@@ -404,8 +411,8 @@ h1,h2{text-wrap:balance}
 .hero-contact a{font-weight:600}
 @media (min-width:900px){
   .hero-grid{grid-template-columns:1.1fr .9fr;gap:var(--s-6)}
-  .hero-inner{padding:var(--s-8) 0}
-  .hero-media{display:block}
+  .hero-inner{padding:var(--s-8) 0;order:0}
+  .hero-media{order:0;margin-bottom:0}
   .hero::after{display:none}
 }
 

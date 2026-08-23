@@ -152,8 +152,11 @@ function collect_post(array $schema): array {
         $rows = $_POST['rep'][$key] ?? [];
         $out  = [];
         if (is_array($rows)) {
-            foreach ($rows as $row) {
+            foreach ($rows as $idx => $row) {
                 if (!is_array($row)) continue;
+                // The blank <template> row is inert in a browser, but never
+                // trust that — it must not become content.
+                if ((string)$idx === '__I__') continue;
                 $clean = [];
                 foreach ($def['fields'] as $fk => $fdef) {
                     $clean[$fk] = normalise_value($row[$fk] ?? '', $fdef);
@@ -161,10 +164,20 @@ function collect_post(array $schema): array {
                 if (!empty($def['consent'])) {
                     $clean['consent'] = trim((string)($row['consent'] ?? ''));
                 }
-                // Drop rows the editor emptied completely.
+                // Keep a row only if it carries actual content. An icon
+                // select always has a value, so it cannot on its own keep an
+                // otherwise-blank row alive — otherwise pressing "Add" and
+                // saving would publish an empty card.
                 $has = false;
-                foreach ($clean as $v) {
-                    if (is_array($v) ? !empty($v['file']) : trim((string)$v) !== '') { $has = true; break; }
+                foreach ($def['fields'] as $fk => $fdef) {
+                    $type = $fdef['type'] ?? 'text';
+                    if ($type === 'icon') continue;
+                    $v = $clean[$fk] ?? '';
+                    if ($type === 'image') {
+                        if (!empty($v['file'])) { $has = true; break; }
+                    } elseif (trim((string)$v) !== '') {
+                        $has = true; break;
+                    }
                 }
                 if ($has) $out[] = $clean;
             }
@@ -182,7 +195,13 @@ function normalise_value($raw, array $def) {
         if ($file === '') return ['file' => '', 'alt' => ''];
         $m = media_find($file);
         if (!$m) return ['file' => '', 'alt' => ''];   // points at something deleted
-        return ['file' => $file, 'alt' => $alt, 'w' => (int)$m['w'], 'h' => (int)$m['h']];
+        return [
+            'file'   => $file,
+            'alt'    => $alt,
+            'w'      => (int)$m['w'],
+            'h'      => (int)$m['h'],
+            'srcset' => media_srcset($m),
+        ];
     }
     $s = is_string($raw) ? $raw : '';
     $s = str_replace("\r\n", "\n", $s);
