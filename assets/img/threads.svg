@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="presentation">
+  <rect width="800" height="600" fill="#E4DCD4"/>
+  <g fill="none" stroke="#9C2B2E" stroke-opacity="0.22" stroke-width="1.4">
+    <path d="M-40 520C120 520 200 300 400 300s280 220 440 220"/>
+    <path d="M-40 470C120 470 200 250 400 250s280 220 440 220"/>
+    <path d="M-40 420C120 420 200 200 400 200s280 220 440 220"/>
+    <path d="M-40 370C120 370 200 150 400 150s280 220 440 220"/>
+    <path d="M-40 320C120 320 200 100 400 100s280 220 440 220"/>
+    <path d="M-40 270C120 270 200 50 400 50s280 220 440 220"/>
+    <path d="M-40 220C120 220 200 0 400 0s280 220 440 220"/>
+  </g>
+  <g fill="none" stroke="#1E1B19" stroke-opacity="0.10" stroke-width="1.1">
+    <path d="M120 -40c0 160 -80 240 -80 340s80 180 80 340"/>
+    <path d="M260 -40c0 160 -80 240 -80 340s80 180 80 340"/>
+    <path d="M400 -40c0 160 -80 240 -80 340s80 180 80 340"/>
+    <path d="M540 -40c0 160 -80 240 -80 340s80 180 80 340"/>
+    <path d="M680 -40c0 160 -80 240 -80 340s80 180 80 340"/>
+  </g>
+</svg>
