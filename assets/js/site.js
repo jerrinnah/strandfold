@@ -159,4 +159,43 @@
       if (note) { note.textContent = 'Newsletter sign-up is not connected yet.'; note.hidden = false; }
     });
   }
+  /* ------------------------------------------------------------------
+     7. SCROLL REVEALS
+     Purely decorative. The class that hides elements is only added once
+     this runs, so with JavaScript off nothing is ever invisible. Skipped
+     entirely when the visitor has asked for reduced motion.
+  ------------------------------------------------------------------ */
+  (function () {
+    if (!('IntersectionObserver' in window)) { return; }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+
+    var targets = document.querySelectorAll(
+      '.hero-inner, .hero-media, .pagehead-inner, .stat, .card, .feature, ' +
+      '.way, .prog, .story, .contact-item, .quote, .split-body, .split-visual, ' +
+      '.consent-note, .table-wrap, .acc'
+    );
+    if (!targets.length) { return; }
+
+    document.documentElement.classList.add('has-rv');
+    for (var i = 0; i < targets.length; i++) { targets[i].classList.add('rv'); }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { return; }
+        entry.target.classList.add('rv-in');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+
+    for (var j = 0; j < targets.length; j++) { io.observe(targets[j]); }
+
+    // Anything already on screen at load reveals immediately, so the first
+    // view is never blank while waiting for a scroll.
+    requestAnimationFrame(function () {
+      for (var k = 0; k < targets.length; k++) {
+        var r = targets[k].getBoundingClientRect();
+        if (r.top < window.innerHeight) { targets[k].classList.add('rv-in'); }
+      }
+    });
+  })();
 })();
