@@ -1,0 +1,5 @@
+Options -Indexes
+# Only the front controller is reachable; lib/ is blocked at the root too.
+<FilesMatch "\.(json|md|log)$">
+  Require all denied
+</FilesMatch>

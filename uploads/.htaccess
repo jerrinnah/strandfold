@@ -1,0 +1,8 @@
+# Uploaded files are data, never code. If someone ever manages to place a .php
+# file here, this stops the server from executing it.
+php_flag engine off
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule \.(php|phtml|phar|cgi|pl|py|sh)$ - [F,L]
+</IfModule>
+Options -Indexes

@@ -1,61 +1,58 @@
-/* Strandfold — static page assembler.
-   Reads src/*.html (body + JSON front-matter), wraps each in the shared
-   layout, writes plain .html files to the project root.
-   Run:  node tools/build.js
-   No dependencies. The output is ordinary static HTML — you can host it
-   anywhere, and you can hand-edit the output if you ever drop this script. */
+<?php
+/** The shared page shell: safety bar, masthead, footer, cover-tracks dialog. */
+declare(strict_types=1);
 
-const fs = require('fs');
-const path = require('path');
+require_once __DIR__ . '/partials/icons.php';
 
-const ROOT = path.join(__dirname, '..');
-const SRC = path.join(ROOT, 'src');
+function nav_items(): array {
+    return [
+        ['index.html', 'index', 'Home'],
+        ['get-help.html', 'get-help', 'Get Help'],
+        ['programmes.html', 'programmes', 'Programmes'],
+        ['about.html', 'about', 'About'],
+        ['stories.html', 'stories', 'Stories'],
+        ['get-involved.html', 'get-involved', 'Get Involved'],
+        ['contact.html', 'contact', 'Contact'],
+    ];
+}
 
-const NAV = [
-  { href: 'index.html',        key: 'home',     label: 'Home' },
-  { href: 'get-help.html',     key: 'help',     label: 'Get Help' },
-  { href: 'programmes.html',   key: 'prog',     label: 'Programmes' },
-  { href: 'about.html',        key: 'about',    label: 'About' },
-  { href: 'stories.html',      key: 'stories',  label: 'Stories' },
-  { href: 'get-involved.html', key: 'involved', label: 'Get Involved' },
-  { href: 'contact.html',      key: 'contact',  label: 'Contact' },
-];
+function render_layout(string $key, array $meta, string $body, array $s): string {
+    $nav = '';
+    foreach (nav_items() as [$href, $k, $label]) {
+        $cur = $k === $key ? ' aria-current="page"' : '';
+        $nav .= '<li><a href="' . $href . '"' . $cur . '>' . e($label) . '</a></li>' . "\n        ";
+    }
 
-const MARK = `<svg class="mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-        <g fill="none" stroke="#9C2B2E" stroke-width="5" stroke-linecap="round">
-          <path d="M12 5C12 19 52 19 52 32S12 45 12 59"/>
-          <path d="M52 5C52 19 12 19 12 32S52 45 52 59" stroke-opacity=".42"/>
-        </g>
-      </svg>`;
+    $exit = $s['decoy_url'] !== '' ? $s['decoy_url'] : 'https://www.bbc.com/weather';
+    $wa   = preg_replace('/\D+/', '', (string)$s['whatsapp_number']);
 
-const FOOTER_MARK = MARK.replace(/#9C2B2E/g, 'currentColor');
-
-const layout = (meta, body) => `<!doctype html>
+    ob_start(); ?>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>${meta.title}</title>
-<meta name="description" content="${meta.description}">
+<title><?= e($meta['title']) ?></title>
+<meta name="description" content="<?= e($meta['desc']) ?>">
 <meta name="theme-color" content="#1E1B19">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/playfair-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body data-exit-url="<?= e($exit) ?>">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- Persistent safety bar: on every page, above everything -->
 <div class="safetybar">
   <div class="wrap">
     <div class="safetybar-info">
-      <a href="tel:+000000000000">Helpline<span class="hide-xs"> [XXX-XXX-XXXX]</span></a>
-      <a href="https://wa.me/000000000000" rel="noreferrer noopener">WhatsApp</a>
+      <a href="tel:<?= e($s['helpline_tel']) ?>">Helpline<span class="hide-xs"> <?= e($s['helpline']) ?></span></a>
+      <a href="https://wa.me/<?= e($wa) ?>" rel="noreferrer noopener">WhatsApp</a>
       <a href="#" data-open-tracks>Cover your tracks</a>
     </div>
     <button type="button" class="quick-exit" data-quick-exit aria-label="Quick exit — leave this site immediately">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+      <?= icon('exit') ?>
       Quick exit
     </button>
   </div>
@@ -64,37 +61,36 @@ const layout = (meta, body) => `<!doctype html>
 <header class="masthead">
   <div class="wrap masthead-inner">
     <a class="brand" href="index.html">
-      ${MARK}
+      <?= brand_mark() ?>
       <span>
         <span class="brand-name">Strandfold</span>
         <span class="brand-sub">Support Foundation</span>
       </span>
     </a>
     <button type="button" class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <?= icon('menu') ?>
       Menu
     </button>
     <nav class="nav" id="site-nav" aria-label="Main">
       <ul>
-        ${NAV.map(n => `<li><a href="${n.href}"${meta.nav === n.key ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('\n        ')}
-        <li><a class="btn btn-primary btn-sm" href="get-involved.html#give">Donate</a></li>
+        <?= $nav ?><li><a class="btn btn-primary btn-sm" href="get-involved.html#give">Donate</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <main id="main">
-${body}
+<?= $body ?>
 </main>
 
 <footer class="footer">
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
-        ${FOOTER_MARK}
+        <?= brand_mark('mark', 'currentColor') ?>
         <div class="brand-name">Strandfold</div>
         <span class="brand-sub">Support Foundation</span>
-        <p style="margin-top:1rem">One strand breaks. Folded, we hold.</p>
+        <p style="margin-top:1rem"><?= e($s['tagline']) ?></p>
       </div>
       <div>
         <h4>Get Help</h4>
@@ -143,7 +139,7 @@ ${body}
       </div>
     </div>
     <div class="footer-bottom">
-      <p style="margin:0">Strandfold Support Foundation is a registered non-profit [registration number].</p>
+      <p style="margin:0"><?= e($s['org_name']) ?> is a registered non-profit <?= e($s['reg_number']) ?>.</p>
       <ul>
         <li><a href="#">Privacy Policy</a></li>
         <li><a href="#">Terms</a></li>
@@ -151,7 +147,7 @@ ${body}
         <li><a href="about.html#governance">Complaints</a></li>
         <li><a href="#" data-open-tracks>Cover your tracks</a></li>
       </ul>
-      <p style="margin:1rem 0 0">© 2026 Strandfold Support Foundation. All rights reserved.</p>
+      <p style="margin:1rem 0 0">© <?= date('Y') ?> <?= e($s['org_name']) ?>. All rights reserved.</p>
     </div>
   </div>
 </footer>
@@ -181,20 +177,14 @@ ${body}
 <script src="assets/js/site.js"></script>
 </body>
 </html>
-`;
-
-const files = fs.readdirSync(SRC).filter(f => f.endsWith('.html'));
-let count = 0;
-
-for (const file of files) {
-  const raw = fs.readFileSync(path.join(SRC, file), 'utf8');
-  const m = raw.match(/^<!--META\s*([\s\S]*?)-->\s*/);
-  if (!m) { throw new Error(`Missing META block in src/${file}`); }
-  const meta = JSON.parse(m[1]);
-  const body = raw.slice(m[0].length).trimEnd() + '\n';
-  const out = path.join(ROOT, file);
-  fs.writeFileSync(out, layout(meta, body));
-  count++;
-  console.log('built', file, `(${(fs.statSync(out).size / 1024).toFixed(1)} kB)`);
+<?php
+    return ob_get_clean();
 }
-console.log(`\n${count} pages built.`);
+
+/** The danger line that must sit beside every contact point. */
+function danger_note(array $s, string $extra = ''): string {
+    return '<div class="safety-note' . ($extra !== '' ? ' ' . $extra : '') . '">'
+        . icon('warning')
+        . '<p>If you are in immediate danger, stop reading and call emergency services on <strong>'
+        . e($s['emergency']) . '</strong>. If you cannot speak safely, send us a message and we will follow your lead on how and when to respond.</p></div>';
+}

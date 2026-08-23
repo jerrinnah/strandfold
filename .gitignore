@@ -2,3 +2,23 @@
 **/.DS_Store
 Thumbs.db
 node_modules/
+
+# Generated pages. Built from content/ by cli/render.php on every save and on
+# every deploy — keeping them in git would give the site two sources of truth.
+/index.html
+/about.html
+/get-help.html
+/programmes.html
+/stories.html
+/get-involved.html
+/faq.html
+/contact.html
+/sitemap.xml
+
+# Live data, owned by the server, not by the repo.
+# content/ contains staff edits AND password hashes; uploads/ contains images.
+# Back these two up from cPanel, not from git.
+/content/*
+!/content/.htaccess
+/uploads/*
+!/uploads/.htaccess

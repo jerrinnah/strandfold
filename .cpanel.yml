@@ -6,23 +6,26 @@ deployment:
     - export DEPLOYPATH=$HOME/public_html
     - /bin/mkdir -p $DEPLOYPATH
 
-    # Pages
-    - /bin/cp index.html $DEPLOYPATH/
-    - /bin/cp get-help.html $DEPLOYPATH/
-    - /bin/cp programmes.html $DEPLOYPATH/
-    - /bin/cp about.html $DEPLOYPATH/
-    - /bin/cp stories.html $DEPLOYPATH/
-    - /bin/cp get-involved.html $DEPLOYPATH/
-    - /bin/cp faq.html $DEPLOYPATH/
-    - /bin/cp contact.html $DEPLOYPATH/
-
-    # Search
-    - /bin/cp robots.txt $DEPLOYPATH/
-    - /bin/cp sitemap.xml $DEPLOYPATH/
-
-    # Stylesheet, script, fonts, SVG. Copied wholesale so removed files in a
-    # subfolder do not linger; assets/ is the only directory the site needs.
-    - /bin/rm -rf $DEPLOYPATH/assets
+    # ---- Application code ----------------------------------------------
+    # Copied wholesale so deleted files do not linger on the server.
+    - /bin/rm -rf $DEPLOYPATH/assets $DEPLOYPATH/admin $DEPLOYPATH/templates $DEPLOYPATH/cli
     - /bin/cp -R assets $DEPLOYPATH/
+    - /bin/cp -R admin $DEPLOYPATH/
+    - /bin/cp -R templates $DEPLOYPATH/
+    - /bin/cp -R cli $DEPLOYPATH/
+    - /bin/cp .htaccess $DEPLOYPATH/
+    - /bin/cp robots.txt $DEPLOYPATH/
 
-    # src/ and tools/ are build sources and are deliberately NOT deployed.
+    # ---- Live data — NEVER overwritten ---------------------------------
+    # content/ holds everything staff have edited plus the admin accounts;
+    # uploads/ holds their images. Both are created if missing and then left
+    # entirely alone, so a deploy can never revert someone's edits.
+    - /bin/mkdir -p $DEPLOYPATH/content $DEPLOYPATH/uploads
+    - /bin/cp -n content/.htaccess $DEPLOYPATH/content/.htaccess || true
+    - /bin/cp -n uploads/.htaccess $DEPLOYPATH/uploads/.htaccess || true
+    - /bin/chmod 755 $DEPLOYPATH/content $DEPLOYPATH/uploads
+
+    # ---- Rebuild the static pages from the server's own content ---------
+    # The .html files are generated, not deployed. If this step fails the
+    # previous pages stay in place and keep serving.
+    - cd $DEPLOYPATH && (php cli/render.php || /usr/local/bin/php cli/render.php || /usr/bin/php cli/render.php)

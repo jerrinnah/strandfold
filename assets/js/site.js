@@ -11,7 +11,9 @@
      Change DECOY_URL to any neutral site the audience would plausibly
      have open. Keep it https and keep it boring.
   ------------------------------------------------------------------ */
-  var DECOY_URL = 'https://www.bbc.com/weather';
+  // Set in the admin under Site settings, published onto <body>.
+  var DECOY_URL = (document.body && document.body.getAttribute('data-exit-url'))
+    || 'https://www.bbc.com/weather';
 
   function quickExit(e) {
     if (e) { e.preventDefault(); }
@@ -91,17 +93,18 @@
      by email, and the fields are wiped as soon as the message is sent so
      that no draft survives in the page or in form autofill.
 
-     TO GO LIVE: set FORM_ENDPOINT to your server route. It must
+     The endpoint is set in the admin under Contact -> Form endpoint URL.
+     It must
        - accept POST of plain form data over https,
        - never send a confirmation email to the sender,
        - store messages behind staff authentication only.
   ------------------------------------------------------------------ */
-  var FORM_ENDPOINT = '';
 
   var forms = document.querySelectorAll('[data-safe-form]');
   for (var f = 0; f < forms.length; f++) {
     (function (form) {
       var status = form.parentNode.querySelector('[data-form-status]');
+      var FORM_ENDPOINT = form.getAttribute('data-endpoint') || '';
 
       function say(msg) {
         if (!status) { return; }
