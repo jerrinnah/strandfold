@@ -12,12 +12,12 @@
           <a class="btn btn-ghost" href="/get-involved#give"><?= e($c['hero_cta2']) ?></a>
         </div>
         <div class="hero-contact">
-          <p class="mb-0">
-            <strong>Confidential helpline:</strong> <a href="tel:<?= e($s['helpline_tel']) ?>"><?= e($s['helpline']) ?></a> ·
-            <strong>WhatsApp:</strong> <a href="https://wa.me/<?= e(preg_replace('/\D+/', '', $s['whatsapp_number'])) ?>" rel="noreferrer noopener"><?= e($s['whatsapp']) ?></a> ·
-            Available <?= e($s['helpline_hours']) ?>
+          <p class="hero-stat-label">Confidential helpline · <?= e($s['helpline_hours']) ?></p>
+          <p class="hero-stat">
+            <a href="tel:<?= e($s['helpline_tel']) ?>"><?= e($s['helpline']) ?></a>
+            <span class="hero-stat-alt">or WhatsApp <a href="https://wa.me/<?= e(preg_replace('/\D+/', '', $s['whatsapp_number'])) ?>" rel="noreferrer noopener"><?= e($s['whatsapp']) ?></a></span>
           </p>
-          <p class="small mb-0" style="margin-top:.6rem">If you are in immediate danger, stop reading and call emergency services. If you cannot speak safely, send us a message and we will follow your lead on how and when to respond.</p>
+          <p class="small mb-0">If you are in immediate danger, stop reading and call emergency services. If you cannot speak safely, send us a message and we will follow your lead on how and when to respond.</p>
         </div>
       </div>
       <div class="hero-media">

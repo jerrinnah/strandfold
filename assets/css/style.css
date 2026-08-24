@@ -378,49 +378,90 @@ h1,h2{text-wrap:balance}
 .linkarrow:hover{color:var(--accent-hi)}
 .linkarrow:hover::after{transform:translateX(4px)}
 
-/* ------------------------------------------------------------------ hero */
+/* ==========================================================================
+   Hero — modelled on the reference layout: the image bleeds to the top and
+   right edges with no frame, the type is uppercase serif, and the call to
+   action carries a caption beneath it.
+
+   Two deliberate departures from the reference. The text is not laid over the
+   photograph: staff upload their own images and we cannot know a caption will
+   stay legible on top of one. And the caption under the button is the
+   helpline, not a fundraising total, because on this site that number is the
+   most important thing on the page.
+   ========================================================================== */
 .hero{position:relative;background:var(--bg-2);overflow:hidden;border-bottom:1px solid var(--line)}
 .hero::before{
-  /* a soft warm bloom instead of a flat panel */
   content:"";position:absolute;inset:-30% -10% auto auto;width:70ch;height:70ch;
-  background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 12%, transparent), transparent);
+  background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 10%, transparent), transparent);
   pointer-events:none
 }
 .hero::after{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:url("../img/weave.svg") right -60px top -40px/520px no-repeat;
-  opacity:.4
+  background:url("/assets/img/weave.svg") right -60px top -40px/520px no-repeat;
+  opacity:.35
 }
-.hero-grid{position:relative;z-index:1;display:grid;gap:var(--s-5);align-items:center}
+.hero-grid{position:relative;z-index:1;display:grid;gap:var(--s-5)}
 .hero-inner{padding:var(--s-6) 0}
-.hero h1{margin-bottom:var(--s-3)}
-.hero .lede{margin-bottom:var(--s-5)}
+.hero h1{
+  margin-bottom:var(--s-3);
+  text-transform:uppercase;letter-spacing:.005em;line-height:1.08;
+  font-size:clamp(1.9rem, 1.3rem + 2.6vw, 3.1rem)
+}
+.hero .lede{margin-bottom:var(--s-5);max-width:46ch}
+
+/* Caption block under the buttons, in the manner of the reference's
+   "donation so far" line — but carrying the helpline. */
+.hero-contact{margin-top:var(--s-5);padding-top:var(--s-4);border-top:1px solid var(--line)}
+.hero-stat-label{
+  margin:0 0 .3rem;font-size:var(--t-xs);font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--text-3)
+}
+.hero-stat{
+  margin:0 0 .75rem;font-family:var(--serif);font-size:var(--t-2xl);
+  line-height:1.1;color:var(--accent-ink);letter-spacing:-.01em
+}
+.hero-stat a{color:inherit;text-decoration:none}
+.hero-stat a:hover{text-decoration:underline;text-underline-offset:.15em}
+.hero-stat-alt{
+  display:block;margin-top:.35rem;font-family:var(--sans);
+  font-size:var(--t-sm);letter-spacing:0;color:var(--text-3)
+}
+.hero-stat-alt a{color:var(--accent-ink);font-weight:600}
+.hero-contact .small{color:var(--text-3)}
+
 .hero-media{order:2}
-/* On a phone the image sits below the words: the headline and the helpline
-   number must be reachable without scrolling past a photograph. */
 @media (max-width:899px){
   .hero-inner{order:1;padding-bottom:var(--s-4)}
-  .hero-media{margin-bottom:var(--s-6)}
-  /* An empty slot shows a compact placeholder rather than a tall 4:5 hole. */
+  /* Full width on a phone, edge to edge, matching the reference's bleed. */
+  .hero-media{margin-inline:calc(var(--gut) * -1);margin-bottom:0}
+  .hero-media .imgslot{border-radius:0}
   .hero-media .imgslot.is-empty{aspect-ratio:16 / 10}
-}
-/* A slot carrying a real image uses that image's own shape. The height caps
-   stop a tall portrait from filling the whole screen before any words. */
-.hero-media .imgslot-adapt{max-height:min(78vh, 760px);margin-inline:auto}
-@media (max-width:899px){
   .hero-media .imgslot-adapt{max-height:min(62vh, 460px)}
 }
-.hero-contact{
-  margin-top:var(--s-5);padding-top:var(--s-3);
-  border-top:1px solid var(--line);font-size:var(--t-sm);color:var(--text-3)
-}
-.hero-contact strong{color:var(--text)}
-.hero-contact a{font-weight:600}
+
 @media (min-width:900px){
-  .hero-grid{grid-template-columns:1.1fr .9fr;gap:var(--s-6)}
+  .hero-grid{grid-template-columns:1.02fr .98fr;gap:var(--s-6);align-items:center}
   .hero-inner{padding:var(--s-8) 0;order:0}
-  .hero-media{order:0;margin-bottom:0}
+  .hero-media{
+    order:0;align-self:start;
+    /* Bleed to the right edge of the viewport and up to the masthead. */
+    margin-right:calc(50% - 50vw);
+    margin-top:calc(var(--s-8) * -1);
+    margin-bottom:0
+  }
+  .hero-media .imgslot{border-radius:0;margin:0}
+  /* The uploaded image keeps its own shape; only the ceiling is imposed. */
+  .hero-media .imgslot-adapt{max-height:min(86vh, 820px);margin-inline:0}
   .hero::after{display:none}
+}
+
+/* The reference photography is black and white. Desaturating the hero keeps a
+   mixed set of uploads coherent and stops a loud photograph competing with the
+   helpline number. */
+.hero-media .imgslot:not(.is-empty) img{filter:grayscale(.92) contrast(1.06)}
+.hero-media .imgslot:not(.is-empty)::after{opacity:.5}
+@media (prefers-color-scheme: dark){
+  .hero-media .imgslot:not(.is-empty) img{filter:grayscale(.92) contrast(1.02) brightness(.86)}
 }
 
 .pagehead{position:relative;background:var(--bg-2);border-bottom:1px solid var(--line);overflow:hidden}
