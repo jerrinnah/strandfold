@@ -47,7 +47,7 @@
         <h2 class="display-caps"><?= e($c['vol_headline']) ?></h2>
         <?= rich($c['vol_body']) ?>
         <div class="btn-row" style="margin-top:1.5rem">
-          <a class="btn btn-primary" href="contact.html">Apply to volunteer</a>
+          <a class="btn btn-primary" href="/contact">Apply to volunteer</a>
         </div>
       </div>
       <div>
@@ -71,7 +71,7 @@
         <h2 class="display-caps"><?= e($c['partner_headline']) ?></h2>
         <?= rich($c['partner_body']) ?>
         <div class="btn-row" style="margin-top:1.5rem">
-          <a class="btn btn-primary" href="contact.html">Start a conversation</a>
+          <a class="btn btn-primary" href="/contact">Start a conversation</a>
         </div>
       </div>
       <div>
@@ -96,7 +96,7 @@
       <h2 class="display-caps"><?= e($c['fund_headline']) ?></h2>
       <?= rich($c['fund_body']) ?>
       <div class="btn-row" style="margin-top:1.75rem">
-        <a class="btn btn-light" href="contact.html">Request a fundraising pack</a>
+        <a class="btn btn-light" href="/contact">Request a fundraising pack</a>
       </div>
     </div>
   </div>

@@ -4,23 +4,30 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/partials/icons.php';
 
+/** Public URL for a page. The .html is a server detail, not something a
+    visitor should see or type. */
+function page_url(string $key, string $frag = ''): string {
+    $u = $key === 'index' ? '/' : '/' . $key;
+    return $frag !== '' ? $u . '#' . $frag : $u;
+}
+
 function nav_items(): array {
     return [
-        ['index.html', 'index', 'Home'],
-        ['get-help.html', 'get-help', 'Get Help'],
-        ['programmes.html', 'programmes', 'Programmes'],
-        ['about.html', 'about', 'About'],
-        ['stories.html', 'stories', 'Stories'],
-        ['get-involved.html', 'get-involved', 'Get Involved'],
-        ['contact.html', 'contact', 'Contact'],
+        ['index', 'Home'],
+        ['get-help', 'Get Help'],
+        ['programmes', 'Programmes'],
+        ['about', 'About'],
+        ['stories', 'Stories'],
+        ['get-involved', 'Get Involved'],
+        ['contact', 'Contact'],
     ];
 }
 
 function render_layout(string $key, array $meta, string $body, array $s): string {
     $nav = '';
-    foreach (nav_items() as [$href, $k, $label]) {
+    foreach (nav_items() as [$k, $label]) {
         $cur = $k === $key ? ' aria-current="page"' : '';
-        $nav .= '<li><a href="' . $href . '"' . $cur . '>' . e($label) . '</a></li>' . "\n        ";
+        $nav .= '<li><a href="' . page_url($k) . '"' . $cur . '>' . e($label) . '</a></li>' . "\n        ";
     }
 
     $exit = $s['decoy_url'] !== '' ? $s['decoy_url'] : 'https://www.bbc.com/weather';
@@ -36,9 +43,9 @@ function render_layout(string $key, array $meta, string $body, array $s): string
 <title><?= e($meta['title']) ?></title>
 <meta name="description" content="<?= e($meta['desc']) ?>">
 <meta name="theme-color" content="#1E1B19">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/playfair-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/playfair-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body data-exit-url="<?= e($exit) ?>">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -60,7 +67,7 @@ function render_layout(string $key, array $meta, string $body, array $s): string
 
 <header class="masthead">
   <div class="wrap masthead-inner">
-    <a class="brand" href="index.html">
+    <a class="brand" href="/">
       <?= brand_mark() ?>
       <span>
         <span class="brand-name">Strandfold</span>
@@ -73,7 +80,7 @@ function render_layout(string $key, array $meta, string $body, array $s): string
     </button>
     <nav class="nav" id="site-nav" aria-label="Main">
       <ul>
-        <?= $nav ?><li><a class="btn btn-primary btn-sm" href="get-involved.html#give">Donate</a></li>
+        <?= $nav ?><li><a class="btn btn-primary btn-sm" href="/get-involved#give">Donate</a></li>
       </ul>
     </nav>
   </div>
@@ -95,38 +102,38 @@ function render_layout(string $key, array $meta, string $body, array $s): string
       <div>
         <h4>Get Help</h4>
         <ul>
-          <li><a href="get-help.html">Talk to Someone</a></li>
-          <li><a href="get-help.html#is-this-abuse">Is This Abuse?</a></li>
-          <li><a href="get-help.html#safety-planning">Safety Planning</a></li>
-          <li><a href="get-help.html#friends-family">For Friends &amp; Family</a></li>
-          <li><a href="get-help.html#shelter">Find a Shelter</a></li>
+          <li><a href="/get-help">Talk to Someone</a></li>
+          <li><a href="/get-help#is-this-abuse">Is This Abuse?</a></li>
+          <li><a href="/get-help#safety-planning">Safety Planning</a></li>
+          <li><a href="/get-help#friends-family">For Friends &amp; Family</a></li>
+          <li><a href="/get-help#shelter">Find a Shelter</a></li>
         </ul>
       </div>
       <div>
         <h4>About</h4>
         <ul>
-          <li><a href="about.html">Our Story</a></li>
-          <li><a href="programmes.html">Programmes</a></li>
-          <li><a href="about.html#team">Team</a></li>
-          <li><a href="about.html#governance">Reports &amp; Accounts</a></li>
-          <li><a href="about.html#governance">Safeguarding Policy</a></li>
+          <li><a href="/about">Our Story</a></li>
+          <li><a href="/programmes">Programmes</a></li>
+          <li><a href="/about#team">Team</a></li>
+          <li><a href="/about#governance">Reports &amp; Accounts</a></li>
+          <li><a href="/about#governance">Safeguarding Policy</a></li>
         </ul>
       </div>
       <div>
         <h4>Get Involved</h4>
         <ul>
-          <li><a href="get-involved.html#give">Donate</a></li>
-          <li><a href="get-involved.html#volunteer">Volunteer</a></li>
-          <li><a href="get-involved.html#partner">Partner</a></li>
-          <li><a href="get-involved.html#fundraise">Fundraise</a></li>
-          <li><a href="get-involved.html#careers">Careers</a></li>
+          <li><a href="/get-involved#give">Donate</a></li>
+          <li><a href="/get-involved#volunteer">Volunteer</a></li>
+          <li><a href="/get-involved#partner">Partner</a></li>
+          <li><a href="/get-involved#fundraise">Fundraise</a></li>
+          <li><a href="/get-involved#careers">Careers</a></li>
         </ul>
       </div>
       <div>
         <h4>Connect</h4>
         <ul>
-          <li><a href="contact.html">Contact us</a></li>
-          <li><a href="faq.html">Frequently asked questions</a></li>
+          <li><a href="/contact">Contact us</a></li>
+          <li><a href="/faq">Frequently asked questions</a></li>
           <li><a href="#" rel="noreferrer noopener">[Social links]</a></li>
         </ul>
         <form class="newsletter" data-newsletter>
@@ -143,8 +150,8 @@ function render_layout(string $key, array $meta, string $body, array $s): string
       <ul>
         <li><a href="#">Privacy Policy</a></li>
         <li><a href="#">Terms</a></li>
-        <li><a href="about.html#governance">Safeguarding</a></li>
-        <li><a href="about.html#governance">Complaints</a></li>
+        <li><a href="/about#governance">Safeguarding</a></li>
+        <li><a href="/about#governance">Complaints</a></li>
         <li><a href="#" data-open-tracks>Cover your tracks</a></li>
       </ul>
       <p style="margin:1rem 0 0">© <?= date('Y') ?> <?= e($s['org_name']) ?>. All rights reserved.</p>
@@ -174,7 +181,7 @@ function render_layout(string $key, array $meta, string $body, array $s): string
   </div>
 </dialog>
 
-<script src="assets/js/site.js"></script>
+<script src="/assets/js/site.js"></script>
 </body>
 </html>
 <?php

@@ -77,12 +77,18 @@ every image, and nothing else has a copy.
 
 Generated `.html` files are also not in git; the deploy renders them.
 
-Local preview:
+Local preview — note the router, which reproduces the clean-URL rewrite that
+Apache does in production:
 
 ```bash
-php -S 127.0.0.1:8799     # then http://127.0.0.1:8799/ and /admin/
-php cli/render.php        # rebuild pages after editing content JSON by hand
+php -S 127.0.0.1:8799 cli/router.php   # http://127.0.0.1:8799/ and /admin/
+php cli/render.php                     # rebuild after editing content JSON by hand
 ```
+
+URLs are extensionless: `/get-help`, not `/get-help.html`. The `.html` files
+still exist on disk — `.htaccess` maps the clean URL onto them and 301s any
+old `.html` address across, so existing links and bookmarks keep working.
+This relies on `mod_rewrite`, which cPanel has on by default.
 
 Requires PHP 8 with the GD extension. Both are standard on cPanel; if GD is off,
 uploads are refused with an explanation rather than silently storing metadata.

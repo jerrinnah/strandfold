@@ -18,7 +18,7 @@ $withheld = count($c['stories']) - count($publishable);
   <div class="wrap">
     <div class="consent-note">
       <?= rich($c['consent_note']) ?>
-      <p class="mb-0"><a class="linkarrow" href="contact.html">Withdraw consent for a story</a></p>
+      <p class="mb-0"><a class="linkarrow" href="/contact">Withdraw consent for a story</a></p>
     </div>
   </div>
 </section>
@@ -86,7 +86,7 @@ $withheld = count($c['stories']) - count($publishable);
     <h2 class="display-caps">Journalists and researchers</h2>
     <p class="lede mx-auto">We do not connect journalists directly to survivors under any circumstances. We are glad to talk about the work, the data and the policy gaps.</p>
     <div class="btn-row" style="justify-content:center">
-      <a class="btn btn-ghost" href="contact.html#media">Media enquiries</a>
+      <a class="btn btn-ghost" href="/contact#media">Media enquiries</a>
     </div>
   </div>
 </section>

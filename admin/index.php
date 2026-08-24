@@ -185,7 +185,7 @@ function admin_head(string $title, bool $chrome = true): void {
       <a href="index.php?r=site">Site settings</a>
       <a href="index.php?r=media">Images</a>
       <a href="index.php?r=users">Accounts</a>
-      <a href="../index.html" target="_blank" rel="noopener">View site ↗</a>
+      <a href="/" target="_blank" rel="noopener">View site ↗</a>
     </nav>
     <span class="awho"><?= e($u['name']) ?> · <a href="index.php?r=logout">Sign out</a></span>
   </div>
@@ -287,7 +287,7 @@ function view_page_form(string $key, array $schema, ?string $notice, ?string $er
     ?>
     <p class="crumb"><a href="index.php?r=dashboard">Pages</a> / <?= e($schema['label']) ?></p>
     <h1><?= e($schema['label']) ?></h1>
-    <p class="lede-a">Writes to <code><?= e($schema['file']) ?></code>. <a href="../<?= e($schema['file']) ?>" target="_blank" rel="noopener">View this page ↗</a></p>
+    <p class="lede-a">Writes to <code><?= e($schema['file']) ?></code>. <a href="/<?= e($key === 'index' ? '' : $key) ?>" target="_blank" rel="noopener">View this page ↗</a></p>
     <?php if (!empty($schema['note'])): ?><p class="msg msg-warn"><?= e($schema['note']) ?></p><?php endif; ?>
     <?php flash($notice, $error); ?>
 

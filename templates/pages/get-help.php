@@ -6,7 +6,7 @@ $methods = [
   ['sms',      'Text / SMS',   $s['sms'],      'sms:' . $s['sms_tel'],      'Low data, discreet, works on any phone.'],
   ['mail',     'Email',        $s['email'],    'mailto:' . $s['email'],     'Non-urgent questions. Remember that email can be read by anyone with access to your account.'],
   ['pin',      'Walk in',      $s['address'],  '',                          $s['office_hours'] . '. If it is safer to come in person, you can simply arrive. No appointment needed.'],
-  ['chat',     'Message form', 'Write to us privately', 'contact.html',     'Text only. We reply only in the way and at the times you tell us are safe.'],
+  ['chat',     'Message form', 'Write to us privately', '/contact',     'Text only. We reply only in the way and at the times you tell us are safe.'],
 ];
 ?>
 <section class="pagehead">

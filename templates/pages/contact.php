@@ -88,7 +88,7 @@ $wa = preg_replace('/\D+/', '', $s['whatsapp_number']);
         </div>
         <div class="callout">
           <h4>Volunteering, partnership and fundraising</h4>
-          <p class="mb-0">Use the form, and say which one in your message. <a href="get-involved.html">What we need</a>.</p>
+          <p class="mb-0">Use the form, and say which one in your message. <a href="/get-involved">What we need</a>.</p>
         </div>
         <?= danger_note($s) ?>
       </div>

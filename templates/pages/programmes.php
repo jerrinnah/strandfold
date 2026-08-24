@@ -49,8 +49,8 @@
     <h2 class="display-caps"><?= e($c['close_headline']) ?></h2>
     <div class="lede mx-auto" style="margin-bottom:1.75rem"><?= rich($c['close_body']) ?></div>
     <div class="btn-row" style="justify-content:center">
-      <a class="btn btn-light" href="get-involved.html#give">Fund a programme</a>
-      <a class="btn btn-outline-light" href="get-help.html">Access a programme</a>
+      <a class="btn btn-light" href="/get-involved#give">Fund a programme</a>
+      <a class="btn btn-outline-light" href="/get-help">Access a programme</a>
     </div>
   </div>
 </section>

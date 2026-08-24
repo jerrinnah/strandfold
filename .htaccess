@@ -33,4 +33,31 @@ RedirectMatch 404 /\.(git|env|htaccess|cpanel\.yml)
   ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
 
+# ---------------------------------------------------------------------------
+# Clean URLs: /get-help rather than /get-help.html
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Send /index.html and /page.html to the clean form, once, permanently.
+  # Anything already linking to the old URLs keeps working.
+  RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/([^\s?]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # Drop a trailing slash, so /get-help/ does not break relative paths.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # Serve the file behind the clean URL.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+)$ /$1.html [L]
+</IfModule>
+
+# MultiViews would guess at extensions itself and fight the rules above.
+Options -MultiViews
+
 ErrorDocument 404 /index.html

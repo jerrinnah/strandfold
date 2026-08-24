@@ -8,8 +8,8 @@
         <h1><?= e($c['hero_headline']) ?></h1>
         <div class="lede"><?= rich($c['hero_lede']) ?></div>
         <div class="btn-row">
-          <a class="btn btn-primary" href="get-help.html"><?= e($c['hero_cta1']) ?></a>
-          <a class="btn btn-ghost" href="get-involved.html#give"><?= e($c['hero_cta2']) ?></a>
+          <a class="btn btn-primary" href="/get-help"><?= e($c['hero_cta1']) ?></a>
+          <a class="btn btn-ghost" href="/get-involved#give"><?= e($c['hero_cta2']) ?></a>
         </div>
         <div class="hero-contact">
           <p class="mb-0">
@@ -53,7 +53,7 @@
       </div>
       <div>
         <?= rich($c['do_body']) ?>
-        <a class="linkarrow" href="programmes.html">See how each programme works</a>
+        <a class="linkarrow" href="/programmes">See how each programme works</a>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
       <blockquote>&ldquo;<?= e($c['quote_text']) ?>&rdquo;</blockquote>
       <cite><?= e($c['quote_cite']) ?></cite>
       <div class="btn-row" style="justify-content:center;margin-top:1.75rem">
-        <a class="linkarrow" href="stories.html">Read more stories</a>
+        <a class="linkarrow" href="/stories">Read more stories</a>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
       <h2 class="display-caps"><?= e($c['band_headline']) ?></h2>
       <?= rich($c['band_body']) ?>
       <div class="btn-row" style="margin-top:1.75rem">
-        <a class="btn btn-light" href="about.html">Read our story</a>
+        <a class="btn btn-light" href="/about">Read our story</a>
       </div>
     </div>
   </div>
@@ -126,7 +126,7 @@
     <h2 class="display-caps"><?= e($c['close_headline']) ?></h2>
     <div class="lede mx-auto" style="margin-bottom:1.75rem"><?= rich($c['close_body']) ?></div>
     <div class="btn-row" style="justify-content:center">
-      <a class="btn btn-primary" href="get-help.html#friends-family">How to help someone you love</a>
+      <a class="btn btn-primary" href="/get-help#friends-family">How to help someone you love</a>
     </div>
   </div>
 </section>

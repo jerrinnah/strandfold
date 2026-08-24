@@ -65,7 +65,7 @@ function render_sitemap(): void {
     $out  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $out .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
     foreach (schema_pages() as $key => $p) {
-        $loc = $base . '/' . ($key === 'index' ? '' : $p['file']);
+        $loc = $base . ($key === 'index' ? '/' : '/' . $key);
         $pri = $key === 'index' || $key === 'get-help' ? '1.0' : '0.7';
         $out .= "  <url><loc>" . e($loc) . "</loc><priority>$pri</priority></url>\n";
     }

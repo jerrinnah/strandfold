@@ -46,6 +46,16 @@ function image_slot($img, array $opt = []): string {
         $w   = (int)($img['w'] ?? 0);
         $h   = (int)($img['h'] ?? 0);
 
+        // Older saved values predate dimensions being stored. Measure the file
+        // instead of silently falling back to the fixed crop.
+        if ($w < 1 || $h < 1) {
+            $abs = APP_ROOT . '/' . ltrim($file, '/');
+            if (is_file($abs) && ($sz = @getimagesize($abs))) {
+                $w = (int)$sz[0];
+                $h = (int)$sz[1];
+            }
+        }
+
         // Where the layout allows it, the slot takes the shape of the image
         // that was actually uploaded instead of cropping it to a fixed ratio.
         // Card grids and full-height panels keep their nominal ratio, because
@@ -63,10 +73,12 @@ function image_slot($img, array $opt = []): string {
         // with limited data, so this matters more than usual.
         $srcset = is_array($img) ? trim((string)($img['srcset'] ?? '')) : '';
         $sizes  = $opt['sizes'] ?? '(min-width: 900px) 45vw, 100vw';
+        // Root-relative so the same markup works at / and at /get-help
+        $srcset = preg_replace('#(^|,\s*)uploads/#', '$1/uploads/', $srcset);
         $rs = $srcset !== '' ? ' srcset="' . e($srcset) . '" sizes="' . e($sizes) . '"' : '';
 
         return '<figure class="' . e($class) . '" style="--ratio:' . e($ratio) . '">'
-             . '<img src="' . e($file) . '" alt="' . e($alt) . '"' . $rs . $dim . $load . '>'
+             . '<img src="/' . e(ltrim($file, '/')) . '" alt="' . e($alt) . '"' . $rs . $dim . $load . '>'
              . '</figure>';
     }
 
