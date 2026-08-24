@@ -30,7 +30,7 @@
           </ul>
         </div>
         <div class="stack">
-          <?= image_slot($p['image'] ?? '', ['ratio' => '3 / 2', 'label' => ($p['title'] ?? '') . ' image', 'note' => 'A workshop, a classroom, a courthouse step. No faces without consent.']) ?>
+          <?= image_slot($p['image'] ?? '', ['ratio' => '3 / 2', 'label' => ($p['title'] ?? '') . ' image', 'note' => 'A workshop, a classroom, a courthouse step. No faces without consent.', 'adapt' => true]) ?>
           <?php if (trim((string)($p['note_h'] ?? '')) !== '' || trim((string)($p['note_b'] ?? '')) !== ''): ?>
           <div class="callout">
             <?php if (trim((string)($p['note_h'] ?? '')) !== ''): ?><h4><?= e($p['note_h']) ?></h4><?php endif; ?>

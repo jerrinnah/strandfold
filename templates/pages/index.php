@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="hero-media">
-        <?= image_slot($c['hero_image'] ?? '', ['ratio' => '4 / 5', 'label' => 'Hero image', 'note' => 'Hands, textiles, a doorway, light through a window. Never a survivor’s face.', 'priority' => true]) ?>
+        <?= image_slot($c['hero_image'] ?? '', ['ratio' => '4 / 5', 'label' => 'Hero image', 'note' => 'Hands, textiles, a doorway, light through a window. Never a survivor’s face.', 'priority' => true, 'adapt' => true]) ?>
       </div>
     </div>
   </div>

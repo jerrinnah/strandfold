@@ -401,7 +401,14 @@ h1,h2{text-wrap:balance}
 @media (max-width:899px){
   .hero-inner{order:1;padding-bottom:var(--s-4)}
   .hero-media{margin-bottom:var(--s-6)}
-  .hero-media .imgslot{aspect-ratio:16 / 10}
+  /* An empty slot shows a compact placeholder rather than a tall 4:5 hole. */
+  .hero-media .imgslot.is-empty{aspect-ratio:16 / 10}
+}
+/* A slot carrying a real image uses that image's own shape. The height caps
+   stop a tall portrait from filling the whole screen before any words. */
+.hero-media .imgslot-adapt{max-height:min(78vh, 760px);margin-inline:auto}
+@media (max-width:899px){
+  .hero-media .imgslot-adapt{max-height:min(62vh, 460px)}
 }
 .hero-contact{
   margin-top:var(--s-5);padding-top:var(--s-3);

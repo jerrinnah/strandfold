@@ -15,7 +15,7 @@
       <div>
         <span class="eyebrow">Our story</span>
         <h2 class="display-caps"><?= e($c['story_headline']) ?></h2>
-        <?= image_slot($c['story_image'] ?? '', ['ratio' => '3 / 2', 'label' => 'Story image', 'note' => 'A room, a doorway, a desk. Not a person who came to you for help.']) ?>
+        <?= image_slot($c['story_image'] ?? '', ['ratio' => '3 / 2', 'label' => 'Story image', 'note' => 'A room, a doorway, a desk. Not a person who came to you for help.', 'adapt' => true]) ?>
       </div>
       <div>
         <?= rich($c['story_body']) ?>
