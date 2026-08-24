@@ -49,16 +49,26 @@ function render_field(string $name, array $def, $value): string {
     return $out;
 }
 
-/** Choose an already-uploaded image and give it alt text. */
+/**
+ * Choose an already-uploaded image and give it alt text.
+ *
+ * Stored filenames are randomised, so they tell an editor nothing. The picker
+ * therefore shows the name the file was uploaded under, plus a thumbnail grid
+ * — otherwise choosing between "20260824-48d13acc2c30.png" and
+ * "20260824-42c3353a92f3.png" is guesswork.
+ */
 function render_image_picker(string $name, array $value, array $def): string {
-    $file = (string)($value['file'] ?? '');
-    $alt  = (string)($value['alt'] ?? '');
+    $file  = (string)($value['file'] ?? '');
+    $alt   = (string)($value['alt'] ?? '');
     $ratio = $def['ratio'] ?? '3 / 2';
+    $all   = media_all();
 
     $out  = '<div class="imgpick" data-imgpick>';
+
+    $out .= '<div class="imgpick-top">';
     $out .= '<div class="imgpick-preview">';
     if ($file !== '') {
-        $out .= '<img src="../' . e($file) . '" alt="">';
+        $out .= '<img src="../' . e(media_thumb($file)) . '" alt="">';
     } else {
         $out .= '<span class="imgpick-empty">' . icon('picture') . 'No image</span>';
     }
@@ -66,9 +76,13 @@ function render_image_picker(string $name, array $value, array $def): string {
 
     $out .= '<select name="' . e($name) . '[file]" data-imgpick-file>';
     $out .= '<option value="">— No image —</option>';
-    foreach (media_all() as $m) {
-        $sel = $m['file'] === $file ? ' selected' : '';
-        $out .= '<option value="' . e($m['file']) . '"' . $sel . '>' . e(basename($m['file'])) . ' · ' . (int)$m['w'] . '×' . (int)$m['h'] . '</option>';
+    foreach ($all as $m) {
+        $sel   = $m['file'] === $file ? ' selected' : '';
+        $label = ($m['original'] ?? '') !== '' ? $m['original'] : basename($m['file']);
+        $when  = substr((string)($m['uploaded'] ?? ''), 0, 10);
+        $out  .= '<option value="' . e($m['file']) . '"' . $sel . '>'
+               . e($label) . ' · ' . (int)$m['w'] . '×' . (int)$m['h']
+               . ($when !== '' ? ' · ' . e($when) : '') . '</option>';
     }
     $out .= '</select>';
 
@@ -77,7 +91,31 @@ function render_image_picker(string $name, array $value, array $def): string {
           . '<a href="index.php?r=media" target="_blank" rel="noopener">Upload a new image</a>.</p>';
     if (!empty($def['help'])) $out .= '<p class="fld-warn">' . e($def['help']) . '</p>';
     $out .= '</div></div>';
+
+    if ($all) {
+        $out .= '<div class="imgpick-thumbs" data-imgpick-thumbs>';
+        foreach ($all as $m) {
+            $on = $m['file'] === $file ? ' is-on' : '';
+            $label = ($m['original'] ?? '') !== '' ? $m['original'] : basename($m['file']);
+            $out .= '<button type="button" class="imgthumb' . $on . '" data-file="' . e($m['file']) . '" title="' . e($label) . '">'
+                  . '<img src="../' . e(media_thumb($m['file'])) . '" alt="" loading="lazy">'
+                  . '<span>' . e($label) . '</span></button>';
+        }
+        $out .= '</div>';
+    }
+
+    $out .= '</div>';
     return $out;
+}
+
+/** Smallest stored copy of a file, for admin thumbnails. */
+function media_thumb(string $file): string {
+    $m = media_find($file);
+    if (!$m) return $file;
+    $v = $m['variants'] ?? [];
+    if (!$v) return $file;
+    ksort($v);
+    return (string)reset($v);
 }
 
 /** A repeatable block of rows. */

@@ -56,16 +56,43 @@
     });
   });
 
-  /* ---- image picker preview ---- */
+  /* ---- image picker: dropdown, thumbnails and preview stay in step ---- */
   document.querySelectorAll('[data-imgpick]').forEach(function (pick) {
     var sel = pick.querySelector('[data-imgpick-file]');
     var box = pick.querySelector('.imgpick-preview');
+    var thumbs = pick.querySelector('[data-imgpick-thumbs]');
     if (!sel || !box) return;
-    sel.addEventListener('change', function () {
-      if (!sel.value) { box.innerHTML = '<span class="imgpick-empty">No image</span>'; return; }
-      box.innerHTML = '<img alt="">';
-      box.querySelector('img').src = '../' + sel.value;
-    });
+
+    function thumbSrcFor(file) {
+      var btn = thumbs && thumbs.querySelector('[data-file="' + file.replace(/"/g, '\\"') + '"] img');
+      return btn ? btn.getAttribute('src') : '../' + file;
+    }
+
+    function sync() {
+      if (!sel.value) {
+        box.innerHTML = '<span class="imgpick-empty">No image</span>';
+      } else {
+        box.innerHTML = '<img alt="">';
+        box.querySelector('img').src = thumbSrcFor(sel.value);
+      }
+      if (!thumbs) return;
+      thumbs.querySelectorAll('.imgthumb').forEach(function (b) {
+        b.classList.toggle('is-on', b.getAttribute('data-file') === sel.value);
+      });
+    }
+
+    sel.addEventListener('change', sync);
+
+    if (thumbs) {
+      thumbs.addEventListener('click', function (e) {
+        var btn = e.target.closest('.imgthumb');
+        if (!btn) return;
+        var file = btn.getAttribute('data-file');
+        // Clicking the selected thumbnail again clears the choice.
+        sel.value = (sel.value === file) ? '' : file;
+        sync();
+      });
+    }
   });
 
   /* ---- warn before leaving an edited form ---- */
