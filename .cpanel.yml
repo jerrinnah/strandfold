@@ -25,6 +25,10 @@ deployment:
     - /bin/cp -n uploads/.htaccess $DEPLOYPATH/uploads/.htaccess || true
     - /bin/chmod 755 $DEPLOYPATH/content $DEPLOYPATH/uploads
 
+    # Clear any extensionless page files. One of these would shadow the
+    # clean-URL rewrite and serve stale content instead of the real page.
+    - cd $DEPLOYPATH && /bin/rm -f index about get-help programmes stories get-involved faq contact
+
     # ---- Rebuild the static pages from the server's own content ---------
     # The .html files are generated, not deployed. If this step fails the
     # previous pages stay in place and keep serving.

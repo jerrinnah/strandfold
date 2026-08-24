@@ -15,6 +15,17 @@ node_modules/
 /contact.html
 /sitemap.xml
 
+# Extensionless siblings of the pages. These should never exist: a real file
+# at /get-help would shadow the clean-URL rewrite and serve stale content.
+/index
+/about
+/get-help
+/programmes
+/stories
+/get-involved
+/faq
+/contact
+
 # Live data, owned by the server, not by the repo.
 # content/ contains staff edits AND password hashes; uploads/ contains images.
 # Back these two up from cPanel, not from git.
