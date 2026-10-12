@@ -35,7 +35,7 @@ $withheld = count($c['stories']) - count($publishable);
         <?php if ($tags): ?>
         <ul class="tags"><?php foreach ($tags as $t): ?><li><?= e($t) ?></li><?php endforeach; ?></ul>
         <?php endif; ?>
-        <h3>&ldquo;<?= e($st['headline'] ?? '') ?>&rdquo;</h3>
+        <h3><?= e($st['headline'] ?? '') ?></h3>
         <?= rich($st['body'] ?? '') ?>
         <?php if (trim((string)($st['quote'] ?? '')) !== ''): ?>
         <p class="story-quote">&ldquo;<?= e($st['quote']) ?>&rdquo;</p>

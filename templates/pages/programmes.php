@@ -2,9 +2,9 @@
 <section class="pagehead">
   <div class="wrap">
     <div class="pagehead-inner">
-      <span class="eyebrow"><?= e($c['hero_eyebrow']) ?></span>
+      <?php if (trim((string)$c['hero_eyebrow']) !== ''): ?><span class="eyebrow"><?= e($c['hero_eyebrow']) ?></span><?php endif; ?>
       <h1><?= e($c['hero_headline']) ?></h1>
-      <div class="lede"><?= rich($c['hero_lede']) ?></div>
+      <?php if (trim((string)$c['hero_lede']) !== ''): ?><div class="lede"><?= rich($c['hero_lede']) ?></div><?php endif; ?>
     </div>
   </div>
 </section>

@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <div class="grid g-4" style="margin-top:3rem">
+    <div class="grid g-<?= max(2, min(4, count($c['programmes']))) ?>" style="margin-top:3rem">
       <?php foreach ($c['programmes'] as $p): ?>
       <article class="card card-media">
         <?= image_slot($p['image'] ?? '', ['ratio' => '1 / 1', 'label' => ($p['title'] ?? 'Programme') . ' image', 'class' => 'imgslot-card']) ?>

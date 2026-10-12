@@ -108,7 +108,7 @@ in the admin rather than in code.
 5. **Real unit costs** — Get Involved → Donation table.
 6. **Founding story specifics** — About.
 7. **Team names and credentials** — About → Team members.
-8. **Relevant legislation** — Programmes → Standing Ground.
+8. **Relevant legislation** — no longer needed while legal support is not offered.
 9. **Safeguarding, confidentiality and complaints policies** — should exist as
    documents before launch. Link them from About → Governance.
 10. **Donation processor URLs** — Get Involved.
