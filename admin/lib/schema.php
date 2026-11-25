@@ -56,7 +56,7 @@ function schema_pages(): array {
                 'hero_image'    => ['label' => 'Hero image', 'type' => 'image', 'ratio' => '4 / 5', 'help' => 'Optional. Hands, textiles, doorways, light through a window. Never a survivor\'s face.'],
 
                 'stats_eyebrow' => ['label' => 'Stats band label', 'type' => 'text', 'default' => 'The reality'],
-                'stats_source'  => ['label' => 'Source note', 'type' => 'textarea', 'default' => 'Source: [cite]. Figures reviewed [month, year]. We publish only figures we can cite. Where a number is bracketed, it has not yet been verified for release.'],
+                'stats_source'  => ['label' => 'Source note', 'type' => 'textarea', 'default' => 'Source: Nigeria Demographic and Health Survey 2023–24, National Population Commission (NPC) and ICF. Women aged 15–49. Figures reviewed November 2026. We publish only figures we can cite.'],
 
                 'do_eyebrow'    => ['label' => 'Section label', 'type' => 'text', 'default' => 'What we actually do'],
                 'do_headline'   => ['label' => 'Section headline', 'type' => 'text', 'default' => 'Getting out is only the beginning.'],
@@ -82,10 +82,10 @@ function schema_pages(): array {
                         'label'  => ['label' => 'Description', 'type' => 'textarea'],
                     ],
                     'default' => [
-                        ['number' => '[XX]%', 'label' => 'of women in Lagos State have experienced physical or sexual violence from a partner.'],
-                        ['number' => '[XX]%', 'label' => 'of them never reported it.'],
-                        ['number' => '[XX]',  'label' => 'women walked through our doors last year.'],
-                        ['number' => '[XX]',  'label' => 'of them are now living independently.'],
+                        ['number' => '19%', 'label' => 'of women in Nigeria have experienced physical violence since the age of 15.'],
+                        ['number' => '9%',  'label' => 'experienced physical violence in the last 12 months alone.'],
+                        ['number' => '41%', 'label' => 'of divorced, separated or widowed women experienced violence from their most recent partner.'],
+                        ['number' => '58%', 'label' => 'of women who experienced physical or sexual violence never sought help or told anyone.'],
                     ],
                 ],
                 'programmes' => [
@@ -97,8 +97,8 @@ function schema_pages(): array {
                         'image' => ['label' => 'Image', 'type' => 'image', 'ratio' => '1 / 1'],
                     ],
                     'default' => [
-                        ['icon' => 'mind',   'title' => 'Inner Work',      'body' => 'Trauma-informed counselling, one-on-one and in survivor circles, at no cost.'],
-                        ['icon' => 'sprout', 'title' => 'Rebuild',         'body' => 'Skills training, financial literacy, job placement and small business start-up grants.'],
+                        ['icon' => 'mind',   'title' => 'Inner Work',      'body' => 'Trauma-informed counselling, one-on-one and in survivor circles, at no cost.', 'image' => ['file' => 'assets/img/programmes/inner-work.jpg', 'alt' => 'Two armchairs facing each other beside a sunlit window, with two cups of tea on a small table between them.', 'w' => 1024, 'h' => 1024, 'srcset' => '/assets/img/programmes/inner-work-600.jpg 600w, /assets/img/programmes/inner-work.jpg 1024w']],
+                        ['icon' => 'sprout', 'title' => 'Rebuild',         'body' => 'Skills training, financial literacy, job placement and small business start-up grants.', 'image' => ['file' => 'assets/img/programmes/rebuild.jpg', 'alt' => 'A woman’s hands guiding Ankara fabric through a sewing machine.', 'w' => 1024, 'h' => 1024, 'srcset' => '/assets/img/programmes/rebuild-600.jpg 600w, /assets/img/programmes/rebuild.jpg 1024w']],
                     ],
                 ],
                 'ways' => [
