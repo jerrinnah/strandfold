@@ -609,7 +609,7 @@ td strong{color:var(--text)}
   padding:var(--s-3) var(--s-4)
 }
 .callout p:last-child{margin-bottom:0}
-.callout h4{
+.callout h3,.callout h4{
   margin:0 0 .5em;font-family:var(--sans);font-size:var(--t-xs);
   letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)
 }

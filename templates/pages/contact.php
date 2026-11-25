@@ -79,7 +79,8 @@ $wa = preg_replace('/\D+/', '', $s['whatsapp_number']);
         </div>
         <div class="callout">
           <h4>General enquiries</h4>
-          <p class="mb-0"><a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a></p>
+          <p class="mb-0"><a href="tel:<?= e($s['phone_tel']) ?>"><?= e($s['phone']) ?></a><br>
+          <a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a></p>
         </div>
         <div class="callout" id="media">
           <h4>Media enquiries</h4>

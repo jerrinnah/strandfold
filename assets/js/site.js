@@ -160,6 +160,23 @@
     });
   }
   /* ------------------------------------------------------------------
+     6b. OPEN THE LINKED SECTION
+     A link like /policies#complaints should land on that section open,
+     not on a closed accordion with the content hidden.
+  ------------------------------------------------------------------ */
+  function openFromHash() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (!id) { return; }
+    var el = document.getElementById(id);
+    if (el && el.tagName === 'DETAILS') {
+      el.open = true;
+      el.scrollIntoView();
+    }
+  }
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+
+  /* ------------------------------------------------------------------
      7. SCROLL REVEALS
      Purely decorative. The class that hides elements is only added once
      this runs, so with JavaScript off nothing is ever invisible. Skipped

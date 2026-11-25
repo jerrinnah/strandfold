@@ -12,6 +12,7 @@ node_modules/
 /stories.html
 /get-involved.html
 /faq.html
+/policies.html
 /contact.html
 /sitemap.xml
 
@@ -24,6 +25,7 @@ node_modules/
 /stories
 /get-involved
 /faq
+/policies
 /contact
 
 # Live data, owned by the server, not by the repo.
