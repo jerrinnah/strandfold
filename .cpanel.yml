@@ -14,6 +14,12 @@ deployment:
     - /bin/cp -R templates $DEPLOYPATH/
     - /bin/cp -R cli $DEPLOYPATH/
     - /bin/cp .htaccess $DEPLOYPATH/
+
+    # Record every default the schema has ever had, from this checkout's git
+    # history, so the upgrade step can tell untouched saved fields from real
+    # edits. Written into the deployed copy, never into the checkout. If git
+    # is unavailable the committed copy of the file is used instead.
+    - (php cli/build-default-history.php $DEPLOYPATH/cli/default-history.json || /usr/local/bin/php cli/build-default-history.php $DEPLOYPATH/cli/default-history.json || true)
     - /bin/cp robots.txt $DEPLOYPATH/
 
     # ---- Live data — NEVER overwritten ---------------------------------
@@ -32,4 +38,7 @@ deployment:
     # ---- Rebuild the static pages from the server's own content ---------
     # The .html files are generated, not deployed. If this step fails the
     # previous pages stay in place and keep serving.
+    # Let improved defaults replace saved values nobody actually edited.
+    # Anything staff wrote is left alone. Safe to repeat on every deploy.
+    - cd $DEPLOYPATH && (php cli/upgrade-content.php || /usr/local/bin/php cli/upgrade-content.php || /usr/bin/php cli/upgrade-content.php || true)
     - cd $DEPLOYPATH && (php cli/render.php || /usr/local/bin/php cli/render.php || /usr/bin/php cli/render.php)
