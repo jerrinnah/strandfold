@@ -120,7 +120,7 @@ in the admin rather than in code.
     consent form on file before it will publish.
 12. **Vetted shelter partner list** — held internally, never published. Do not
     put it in this repo.
-13. **Live domain** — set to `https://strandfoldsupport.org` in Site settings
+13. **Live domain** — set to `https://strandoldsf.com` in Site settings
     and `robots.txt`. Change both if the site goes live elsewhere.
 
 ## Accessibility

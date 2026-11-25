@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://strandfoldsupport.org/sitemap.xml
+Sitemap: https://strandoldsf.com/sitemap.xml

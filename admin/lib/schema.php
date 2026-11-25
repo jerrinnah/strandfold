@@ -32,7 +32,7 @@ function schema_site(): array {
             'office_hours'    => ['label' => 'Office hours', 'type' => 'text', 'default' => '[Opening hours]'],
             'reg_number'      => ['label' => 'Registration number', 'type' => 'text', 'default' => '[registration number]'],
             'regulator'       => ['label' => 'Regulator', 'type' => 'text', 'default' => '[CAC / relevant regulator]'],
-            'site_url'        => ['label' => 'Website address', 'type' => 'text', 'default' => 'https://strandfoldsupport.org', 'help' => 'Used in the sitemap search engines read. Must start with https://'],
+            'site_url'        => ['label' => 'Website address', 'type' => 'text', 'default' => 'https://strandoldsf.com', 'help' => 'Used in the sitemap search engines read. Must start with https://'],
             'decoy_url'       => ['label' => 'Quick Exit destination', 'type' => 'text', 'default' => 'https://www.bbc.com/weather', 'help' => 'Where the red Quick Exit button sends someone. Pick a neutral site a visitor could plausibly have open — local news or weather. Must start with https://'],
         ],
     ];
