@@ -8,7 +8,7 @@ no framework, no third-party services.
 stays fast on limited mobile data and keeps serving even if the admin breaks.
 
 ```
-index.html … contact.html   generated pages — do not hand-edit
+index.html … policies.html  generated pages — do not hand-edit
 assets/                     css, js, self-hosted font, svg
 uploads/                    images added through the admin        (server-owned)
 content/                    JSON content + admin accounts         (server-owned)
@@ -26,7 +26,7 @@ setup route refuses to run again.
 | Screen | What it does |
 |---|---|
 | **Pages** | Every page. Edit, press *Save and publish*, and the static files are rewritten immediately. |
-| **Site settings** | Helpline, WhatsApp, SMS, email, address, registration number, emergency number, Quick Exit destination. These appear on all eight pages at once. |
+| **Site settings** | Helpline, WhatsApp, SMS, email, address, registration number, emergency number, Quick Exit destination. These appear on all nine pages at once. |
 | **Images** | Upload, review and delete. Shows which pages use each image. |
 | **Accounts** | One login per person, so a departing staff member can be removed without changing a shared password. |
 
@@ -109,14 +109,19 @@ in the admin rather than in code.
 6. **Founding story specifics** — About.
 7. **Team names and credentials** — About → Team members.
 8. **Relevant legislation** — no longer needed while legal support is not offered.
-9. **Safeguarding, confidentiality and complaints policies** — should exist as
-   documents before launch. Link them from About → Governance.
-10. **Donation processor URLs** — Get Involved.
+9. **Policies** — public summaries are on `/policies` (Pages → Policies).
+   Still needed there: the Executive Director's email, the Board Chair's
+   address for whistleblowing reports, and the date the board last reviewed
+   them. The intake form, consent form, referral sheet and case-management SOP
+   are internal documents — never publish them on the site.
+10. **Online donation links** — Get Involved. Bank transfer details are already
+    there; the Give once / Give monthly buttons stay hidden until a link is set.
 11. **Consented survivor stories** — Stories. Each needs a signed, revocable
     consent form on file before it will publish.
 12. **Vetted shelter partner list** — held internally, never published. Do not
     put it in this repo.
-13. **Live domain** in `robots.txt`.
+13. **Live domain** — set to `https://strandfoldsupport.org` in Site settings
+    and `robots.txt`. Change both if the site goes live elsewhere.
 
 ## Accessibility
 

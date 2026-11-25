@@ -116,7 +116,7 @@ function render_layout(string $key, array $meta, string $body, array $s): string
           <li><a href="/programmes">Programmes</a></li>
           <li><a href="/about#team">Team</a></li>
           <li><a href="/about#governance">Reports &amp; Accounts</a></li>
-          <li><a href="/about#governance">Safeguarding Policy</a></li>
+          <li><a href="/policies">Our Policies</a></li>
         </ul>
       </div>
       <div>
@@ -148,10 +148,10 @@ function render_layout(string $key, array $meta, string $body, array $s): string
     <div class="footer-bottom">
       <p style="margin:0"><?= e($s['org_name']) ?> is a registered non-profit <?= e($s['reg_number']) ?>.</p>
       <ul>
-        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="/policies#privacy">Privacy</a></li>
         <li><a href="#">Terms</a></li>
-        <li><a href="/about#governance">Safeguarding</a></li>
-        <li><a href="/about#governance">Complaints</a></li>
+        <li><a href="/policies#safeguarding">Safeguarding</a></li>
+        <li><a href="/policies#complaints">Complaints</a></li>
         <li><a href="#" data-open-tracks>Cover your tracks</a></li>
       </ul>
       <p style="margin:1rem 0 0">© <?= date('Y') ?> <?= e($s['org_name']) ?>. All rights reserved.</p>

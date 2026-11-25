@@ -27,13 +27,42 @@
       </table>
     </div>
 
+    <?php
+      $once    = trim($c['give_once_url']);
+      $monthly = trim($c['give_monthly_url']);
+      $once    = $once === '#' ? '' : $once;
+      $monthly = $monthly === '#' ? '' : $monthly;
+    ?>
+    <?php if ($once !== '' || $monthly !== ''): ?>
     <div class="btn-row" style="margin-top:1.75rem">
-      <a class="btn btn-primary" href="<?= e($c['give_once_url'] ?: '#') ?>">Give once</a>
-      <a class="btn btn-ghost" href="<?= e($c['give_monthly_url'] ?: '#') ?>">Give monthly</a>
+      <?php if ($once !== ''): ?><a class="btn btn-primary" href="<?= e($once) ?>">Give once</a><?php endif; ?>
+      <?php if ($monthly !== ''): ?><a class="btn btn-ghost" href="<?= e($monthly) ?>">Give monthly</a><?php endif; ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="grid g-2" style="gap:1.5rem;margin-top:2.5rem;align-items:start">
+      <?php if (trim($c['bank_account_number']) !== ''): ?>
+      <div class="callout" id="bank-transfer">
+        <h3>Give by bank transfer</h3>
+        <p class="mb-0">
+          <strong>Account name:</strong> <?= e($c['bank_account_name']) ?><br>
+          <strong>Bank:</strong> <?= e($c['bank_name']) ?><br>
+          <strong>Account number:</strong> <span class="val-lg"><?= e($c['bank_account_number']) ?></span>
+        </p>
+      </div>
+      <?php endif; ?>
+      <div class="callout">
+        <h3>In-kind donations and enquiries</h3>
+        <?= rich($c['inkind_note']) ?>
+        <p class="mb-0">
+          <strong>Phone:</strong> <a href="tel:<?= e($s['phone_tel']) ?>"><?= e($s['phone']) ?></a><br>
+          <strong>Email:</strong> <a href="mailto:<?= e($s['email']) ?>"><?= e($s['email']) ?></a>
+        </p>
+      </div>
     </div>
 
     <div class="callout" style="margin-top:2.5rem">
-      <h4>Transparency</h4>
+      <h3>Transparency</h3>
       <?= rich($c['transparency']) ?>
     </div>
   </div>
