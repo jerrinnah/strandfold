@@ -77,6 +77,13 @@ every image, and nothing else has a copy.
 
 Generated `.html` files are also not in git; the deploy renders them.
 
+Saving a page in the admin stores every field, including ones nobody touched,
+which would otherwise freeze old defaults in place. Each deploy therefore runs
+`cli/upgrade-content.php`: any saved value that exactly matches a default the
+schema once had (recorded in `cli/default-history.json`, rebuilt from git on
+deploy) is dropped so the current default shows. Real edits match no old
+default and are never changed. Preview with `php cli/upgrade-content.php --dry`.
+
 Local preview — note the router, which reproduces the clean-URL rewrite that
 Apache does in production:
 
